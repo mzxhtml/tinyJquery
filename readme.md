@@ -23,7 +23,7 @@ import $ from './js/tinyJquery.min.js'
     $('div').css({background: 'green'}).ac('green-box')
     ```
 # Method
-Use `$('cssSelector')` or `$(nativeDomObject)` or `$(nativeDomObjectArray)` or `$(arrayLikeObject)` to generate a `TinyJquery` obejct.
+Use `$('cssSelector')` or `$(nativeDomObject)` or `$(nativeDomObjectArray)` or `$(arrayLikeObject)` to generate a `TinyJquery` obejct.  
 For example:
     `$('div')`, `$('.box')`, `$('#target')`, `$(document.getElementById('#target'))`, `$(document.getElementsByClassName('box'))`, `document.querySelectorAll('.box')`...  
 <table>
