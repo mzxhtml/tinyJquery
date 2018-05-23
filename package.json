@@ -1,7 +1,7 @@
 {
   "name": "tinyjquery",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Web Front Library imitated from jQuery, based on ecmascript 2015, supported IE10 and above.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
