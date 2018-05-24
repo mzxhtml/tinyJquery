@@ -1,4 +1,3 @@
-// 用ES6写的微型仿JQuery库，支持链式操作, 支持IE10及以上
 class TinyJquery {
     constructor(el) {
         let $el
@@ -14,35 +13,60 @@ class TinyJquery {
     // addEventListener
     on(eventName, fn, bubble = false) {
         this.$el.forEach(i => {
-            i.addEventListener(eventName, fn, !bubble)
+            if(document.addEventListener) {
+                i.addEventListener(eventName, fn, !bubble)
+            } else {
+                i.attachEvent(`on${eventName}`, fn)
+            }
         })
         return this
     }
     // removeEventListener
     un(eventName, fn, bubble = false) {
         this.$el.forEach(i => {
-            i.removeEventListener(eventName, fn, !bubble)
+            if(document.removeEventListener) {
+                i.removeEventListener(eventName, fn, !bubble)
+            } else {
+                i.detachEvent(`on${eventName}`, fn)
+            }
         })
         return this
     }
     // addClass
     ac(className) {
         this.$el.forEach(i => {
-            i.classList.add(className)
+            if(i.classList) {
+                i.classList.add(className)
+            } else {
+                i.className += ' ' + className
+            }
         })
         return this
     }
     // removeClass
     rc(className) {
         this.$el.forEach(i => {
-            i.classList.remove(className)
+            if(i.classList) {
+                i.classList.remove(className)
+            } else {
+                i.className = i.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ')
+            }
         })
         return this
     }
     // toggleClass
     tc(className) {
         this.$el.forEach(i => {
-            i.classList.toggle(className)
+            if(i.classList) {
+                i.classList.toggle(className)
+            } else {
+                let cl = i.className.split(' ')
+                if(cl.indexOf(className) > -1) {
+                    this.rc(className)
+                } else {
+                    this.ac(className)
+                }
+            }
         })
         return this
     }
@@ -50,18 +74,31 @@ class TinyJquery {
     cc(className) {
         let flag = false
         this.$el.forEach(i => {
-            if(i.classList.contains(className)) flag = true
+            if(i.classList) {
+                if(i.classList.contains(className)) flag = true
+            } else {
+                let cl = i.className.split(' ')
+                if(cl.indexOf(className) > -1) flag = true
+            }
         })
         return flag
     }
     // set inline style
-    css(obj) {
-        this.$el.forEach(v => {
-            Object.keys(obj).forEach(i => {
-                v.style[i] = obj[i]
+    css(obj, pseudoElt = null) {
+        if(typeof obj == 'string') {
+            if(window.getComputedStyle) {
+                return window.getComputedStyle(this.$el[0], pseudoElt)[obj]
+            } else {
+                return this.$el[0].currentStyle
+            }
+        } else {
+            this.$el.forEach(v => {
+                for(let i in obj) {
+                    v.style[i] = obj[i]
+                }
             })
-        })
-        return this
+            return this
+        }
     }
     // get or set input value
     val(val) {
@@ -181,7 +218,7 @@ class TinyJquery {
 }
 
 function isTJ(obj) {
-    return obj.constructor.name == 'TinyJquery'
+    return obj instanceof TinyJquery
 }
 
 function $(el) {

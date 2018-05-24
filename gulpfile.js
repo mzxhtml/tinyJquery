@@ -6,6 +6,8 @@ const rollup = require('rollup')
 const webserver = require('gulp-webserver')
 const rename = require('gulp-rename')
 const {uglify} = require('rollup-plugin-uglify')
+const commonjs = require('rollup-plugin-commonjs')
+const rollupResolve = require('rollup-plugin-node-resolve')
 
 function resolve(...rest) {
     return path.resolve(...rest)
@@ -20,7 +22,13 @@ gulp.task('js', async function () {
         plugins: [
             babel({
                 exclude: 'node_modules/**' // only transpile our source code
-            })
+            }),
+            rollupResolve({
+                jsnext: true,
+                main: true,
+                browser: true
+            }),
+            commonjs()
         ]
     })
     await bundle.write({
@@ -50,7 +58,13 @@ gulp.task('build', async function () {
             babel({
                 exclude: 'node_modules/**' // only transpile our source code
             }),
-            uglify()
+            uglify(),
+            rollupResolve({
+                jsnext: true,
+                main: true,
+                browser: true
+            }),
+            commonjs()
         ]
     })
     await bundle.write({
