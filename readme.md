@@ -1,5 +1,5 @@
 # Description
-A Web Front Library imitated from jQuery, based on ecmascript 2015, supported IE10 and above.
+A Web Front Library imitated from jQuery, based on ecmascript 2015, supported IE9 and above.
 
 # Use
 * insert into head tag
@@ -21,6 +21,19 @@ import $ from './js/tinyJquery.min.js'
     Execute another operation directly after an operation:
     ```javascript
     $('div').css({background: 'green'}).ac('green-box')
+    ```
+3. Callback ajax supported IE9 and above
+    ```javascript
+    $.ajax({
+        url: '/api/myUrl',
+        method: 'get',
+        success: function(data) {
+            console.log(data)
+        },
+        error: function(err) {
+            console.error(err)
+        }
+    })
     ```
 # Method
 Use `$('cssSelector')` or `$(nativeDomObject)` or `$(nativeDomObjectArray)` or `$(arrayLikeObject)` to generate a `TinyJquery` obejct.
