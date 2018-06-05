@@ -1,9 +1,13 @@
 import './util/polyfill'
 
-import ajax from './util/ajax'
-// 用ES6写的微型仿JQuery库，支持链式操作, 支持IE10及以上
 import $ from './util/TinyJquery'
-// console.log(ajax)
-$.ajax = ajax
+
+import * as requests from './util/ajax'
+
+$.ajax = requests.ajax
+
+$.get = requests.get
+
+$.post = requests.post
 
 export default $
