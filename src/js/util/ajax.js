@@ -1,5 +1,18 @@
+/**
+ * ajax function like $.ajax in jquery
+ *
+ * @export
+ * @param {String} url
+ * @param {String} method
+ * @param {String} headers
+ * @param {String} data
+ * @param {Function} success
+ * @param {Function} error
+ */
 export function ajax({ url, method, headers, data, success, error }) {
     headers = headers || 'application/x-www-form-urlencoded; charset=UTF-8'
+    // conver JSON Object to String
+    if(data && typeof data != 'string') data = JSON.stringify(data)
     let request = new XMLHttpRequest()
     request.open(method, url, true)
     request.setRequestHeader('Content-type', headers)
@@ -18,6 +31,13 @@ export function ajax({ url, method, headers, data, success, error }) {
     request.send(data)
 }
 
+/**
+ * ajax function like $.get in jquery
+ *
+ * @export
+ * @param {String} url
+ * @param {Function} success
+ */
 export function get(url, success){
     ajax({
         url,
@@ -28,6 +48,14 @@ export function get(url, success){
     })
 }
 
+/**
+ * ajax function like $.post in jquery
+ *
+ * @export
+ * @param {String} url
+ * @param {String} data
+ * @param {Function} success
+ */
 export function post(url, data, success) {
     ajax({
         url,

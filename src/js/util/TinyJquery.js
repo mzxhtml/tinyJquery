@@ -168,11 +168,11 @@ class TinyJquery {
         // console.log(Array.isArray(a))
         return $(a)
     }
-    // 获取原生Dom
+    // get html dom
     getDom() {
         return this.$el[0]
     }
-    // 获取原生Dom列表
+    // get html dom list
     getDomList() {
         return this.$el
     }
@@ -182,22 +182,26 @@ class TinyJquery {
             callback(i)
         })
     }
+    // append target node to node
     append(val) {
         val = isTJ(val) ? val.getDom() : val
         this.$el.forEach(i => i.appendChild(val))
         return this
     }
+    // append node to target node
     appendTo(val) {
         val = isTJ(val) ? val.getDom() : val
         this.$el.forEach(i => val.appendChild(i))
         return this
     }
+    // remove dom
     remove() {
         this.$el.forEach(i => {
             i.parentNode.removeChild(i)
         })
         return this
     }
+    // get the el's height
     height() {
         if(this.$el[0] == window) {
             return window.innerHeight
@@ -205,6 +209,7 @@ class TinyJquery {
             return this.$el[0].offsetHeight
         }
     }
+    // get the el's width
     width() {
         if(this.$el[0] == window) {
             return window.innerWidth
@@ -212,15 +217,28 @@ class TinyJquery {
             return this.$el[0].offsetWidth
         }
     }
+    // get the el's bound relative to document
     bound() {
         return this.$el[0].getBoundingClientRect()
     }
 }
 
+/**
+ * to judge whether an object is TinyJquery or not
+ * 
+ * @param {*} obj
+ * @returns Boolean
+ */
 function isTJ(obj) {
     return obj instanceof TinyJquery
 }
 
+/**
+ * to construct a TinyJquery object
+ *
+ * @param {*} el    css selectors or javascript dom
+ * @returns
+ */
 function $(el) {
     return new TinyJquery(el)
 }

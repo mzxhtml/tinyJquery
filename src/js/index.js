@@ -1,3 +1,5 @@
+// this is the entry file
+
 import './util/polyfill'
 
 import $ from './util/TinyJquery'
